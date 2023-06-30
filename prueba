@@ -1,0 +1,108 @@
+LOTES_DISPONIBLES = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+]
+
+DETALLES_LOTES = [
+    {"NUMERO": 1, "TAMAÑO": "200 m²", "PRECIO": "$150,000"},
+    {"NUMERO": 2, "TAMAÑO": "150 m²", "PRECIO": "$90,000"},
+    {"NUMERO": 3, "TAMAÑO": "180 m²", "PRECIO": "$120,000"},
+    {"NUMERO": 4, "TAMAÑO": "250 m²", "PRECIO": "$200,000"},
+    {"NUMERO": 5, "TAMAÑO": "170 m²", "PRECIO": "$100,000"}
+]
+
+CLIENTES = []
+
+def mostrar_disponibilidad_lotes():
+    print("LOTES DISPONIBLES:")
+    for fila in LOTES_DISPONIBLES:
+        for lote in fila:
+            if lote == 0:
+                print("[ ]", end=" ")
+            else:
+                print("[X]", end=" ")
+        print()
+
+def seleccionar_lote():
+    mostrar_disponibilidad_lotes()
+    print()
+
+    while True:
+        fila = int(input("Ingrese la fila del lote: "))
+        columna = int(input("Ingrese la columna del lote: "))
+
+        if fila < 0 or fila >= len(LOTES_DISPONIBLES) or columna < 0 or columna >= len(LOTES_DISPONIBLES[0]):
+            print("COORDENADAS INVÁLIDAS. INGRESE NUEVAMENTE.")
+        elif LOTES_DISPONIBLES[fila][columna] == 0:
+            rut = input("Ingrese el RUT del cliente: ")
+            nombre = input("Ingrese el nombre completo del cliente: ")
+            telefono = input("Ingrese el teléfono del cliente: ")
+            email = input("Ingrese el email del cliente: ")
+
+            LOTES_DISPONIBLES[fila][columna] = 1
+
+            detalle_lote = DETALLES_LOTES[fila * len(LOTES_DISPONIBLES[0]) + columna]
+            cliente = {"RUT": rut, "NOMBRE": nombre, "TELÉFONO": telefono, "EMAIL": email, "LOTE": detalle_lote}
+            CLIENTES.append(cliente)
+
+            print("¡LOTE SELECCIONADO CON ÉXITO!")
+            break
+        else:
+            print("EL LOTE SELECCIONADO NO ESTÁ DISPONIBLE. INGRESE NUEVAMENTE.")
+
+def mostrar_detalles_lote_seleccionado():
+    if len(CLIENTES) > 0:
+        for cliente in CLIENTES:
+            detalle_lote = cliente["LOTE"]
+            print("CLIENTE:", cliente["NOMBRE"])
+            print("LOTE SELECCIONADO:")
+            print("NÚMERO:", detalle_lote["NUMERO"])
+            print("TAMAÑO:", detalle_lote["TAMAÑO"])
+            print("PRECIO:", detalle_lote["PRECIO"])
+            print("------------------------------")
+    else:
+        print("NO SE HAN SELECCIONADO LOTES.")
+
+def mostrar_clientes():
+    if len(CLIENTES) > 0:
+        print("CLIENTES QUE HAN COMPRADO UN LOTE:")
+        for cliente in CLIENTES:
+            print("NOMBRE:", cliente["NOMBRE"])
+            detalle_lote = cliente["LOTE"]
+            print("LOTE SELECCIONADO:")
+            print("NÚMERO:", detalle_lote["NUMERO"])
+            print("TAMAÑO:", detalle_lote["TAMAÑO"])
+            print("PRECIO:", detalle_lote["PRECIO"])
+            print("------------------------------")
+    else:
+        print("NO HAY CLIENTES REGISTRADOS.")
+
+def menu():
+    while True:
+        print("----- MENÚ -----\n")
+        print("1. VER DISPONIBILIDAD DE LOTES")
+        print("2. SELECCIONAR UN LOTE")
+        print("3. VER DETALLES DEL LOTE SELECCIONADO")
+        print("4. VER CLIENTES")
+        print("5. SALIR")
+
+        opcion = input("INGRESE UNA OPCIÓN: ")
+        print()
+
+        if opcion == "1":
+            mostrar_disponibilidad_lotes()
+        elif opcion == "2":
+            seleccionar_lote()
+        elif opcion == "3":
+            mostrar_detalles_lote_seleccionado()
+        elif opcion == "4":
+            mostrar_clientes()
+        elif opcion == "5":
+            print("¡GRACIAS POR UTILIZAR EL SISTEMA DE LOTEOSDUOC!")
+            break
+        else:
+            print("OPCIÓN INVÁLIDA. POR FAVOR, INGRESE UNA OPCIÓN VÁLIDA.\n")
+
+menu()
